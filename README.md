@@ -1,7 +1,7 @@
 # College-Event-Mangement-System
 ### Web Application using HTML BootStrap JQuery Ajax PHP MySQL
 
-#### --># The Event Management System is a management of event to maintain all the data that is belongs to the event or fest which is organised in the college.
+--> The Event Management System is a management of event to maintain all the data that is belongs to the event or fest which is organised in the college.
 
 --> Event management system provides capabilities for registering the fest, events. 
 
