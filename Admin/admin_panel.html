@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>Admin Panel</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="../js/alertAutoDismiss.js"></script>
+
+</head>
+
+<body>
+	<div class="container">
+
+		<div id="status_alert">
+			<!-- Success Alerts comes here -->
+		</div>
+
+		<center><label style="font-size:300%">Fests</label></center>
+		<br>
+
+		<div id="records_content">
+			<!-- record come here -->
+		</div>
+
+		<br>
+		<br>
+		<center><input type="button" class="btn btn-success" value="Add New" data-toggle="modal" data-target="#addModal"
+				style="width:20%"></center>
+	</div>
+
+
+
+	<!-- Update Modal content-->
+	<div id="updateModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Update Fest Details</h4>
+				</div>
+
+
+
+				<div class="modal-body">
+					<label for="update_txt_festId">ID</label>
+					<input type="Text" id="update_txt_festId" name="update_txt_festId" class="form-control">
+
+					<br>
+					<label for="update_txt_festName">Name</label>
+					<input type="Text" id="update_txt_festName" name="update_txt_festName" placeholder="Enter fest Name"
+						class="form-control">
+					<br>
+
+					<label for="update_txt_department">Departement</label>
+					<input type="Text" id="update_txt_department" name="update_txt_department"
+						placeholder="Enter the departement" class="form-control">
+					<br>
+
+					<label for="update_txt_year">Date</label>
+					<input type="date" id="update_txt_date" name="update_txt_date" class="form-control">
+					<br>
+				</div>
+
+				<div class="modal-footer">
+					<input type="submit" class="btn btn-success" id="updateFest" name="updateFest" value="Update">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Delete Modal content-->
+	<div id="deleteModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Delete Record</h4>
+				</div>
+
+				<div class="modal-body">
+					<p>All the events and registered students deleted will be deleted related to this fest.</p>
+					<br>
+					<p>Do you want to delete the record ?</p>
+				</div>
+
+				<div class="modal-footer">
+					<input type="submit" class="btn btn-danger" id="deleteFest" name="deleteFest" value="Delete">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- Add Modal content-->
+	<div id="addModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Add New Record</h4>
+				</div>
+
+				<div class="modal-body">
+					<label for="add_txt_festName">Fest Name</label>
+					<input type="Text" id="add_txt_festName" name="add_txt_festName" placeholder="Enter fest Name"
+						class="form-control">
+					<br>
+
+					<label for="add_txt_department">Departement</label>
+					<input type="Text" id="add_txt_department" name="add_txt_department"
+						placeholder="Enter the departement" class="form-control">
+					<br>
+
+					<label for="add_txt_year">Date</label>
+					<input type="date" id="add_txt_date" name="add_txt_date" class="form-control">
+					<br>
+				</div>
+
+				<div class="modal-footer">
+					<input type="button" class="btn btn-success" id="addFest" name="addFest" value="Save">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<script>
+		//display the records
+		function readRecords() {
+
+			var readrecords = "readrecords";
+			$.ajax({
+				url: "readFest.php",
+				type: "POST",
+				data: { readrecords: readrecords },
+				success: function (data, status) {
+					$('#records_content').html(data);
+				},
+
+			});
+		}
+
+		//display the records on refresh
+		$(document).ready(function () {
+			readRecords();
+		});
+
+		//retrive data for update
+		function UpdateFest(id) {
+			$.post("update_fest.php", {
+				id: id
+			},
+				function (data, status) {
+					//JSON.parse() parses a string, written in JSON format, and returns a JavaScript object.
+					var fest = JSON.parse(data);
+
+
+					$("#update_txt_festId").val(fest.id);
+					$("#update_txt_festName").val(fest.name);
+					$("#update_txt_department").val(fest.department);
+					$("#update_txt_date").val(fest.date);
+				});
+
+		}
+
+		//upadte fest details
+		$(document).ready(function () {
+			$("#updateFest").on('click', function () {
+				var update_id = $("#update_txt_festId").val();
+				var name = $("#update_txt_festName").val();
+				var department = $("#update_txt_department").val();
+				var date = $("#update_txt_date").val();
+
+				$.post("update_fest.php", {
+					update_id: update_id,
+					name: name,
+					department: department,
+					date: date
+				},
+					function (data, status) {
+						$("#updateModal").modal("hide");
+						readRecords();
+						$('#status_alert').html('<div class="alert alert-success alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Updated</strong> the record Successfully!.</div>');
+						alertAutoDismiss();
+					});
+
+			});
+		});
+
+		//delete fest
+		function DeleteFest(id) {
+			$("#deleteFest").on('click', function () {
+				$.ajax({
+					url: "delete_fest.php",
+					type: 'POST',
+					data: { id: id },
+
+					success: function (data, status) {
+						$("#deleteModal").modal("hide");
+						readRecords();
+						$('#status_alert').html('<div class="alert alert-success alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Deleted</strong> the record Successfully!</div>');
+						alertAutoDismiss();
+
+					}
+				});
+			});
+
+		}
+
+
+		//add new  fest	
+		$(document).ready(function () {
+			$("#addFest").on('click', function () {
+				var name = $("#add_txt_festName").val();
+				var department = $("#add_txt_department").val();
+				var date = $("#add_txt_date").val();
+
+				$.ajax({
+					url: "add_fest.php",
+					type: 'POST',
+					data: {
+						name: name,
+						department: department,
+						date: date
+					},
+					success: function (data, status) {
+						$("#addModal").modal("hide");
+						readRecords();
+						$('#status_alert').html('<div class="alert alert-success alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Added</strong> the record Successfully!</div>');
+						alertAutoDismiss();
+
+					}
+
+				});
+
+			});
+		});
+
+
+	</script>
+
+</body>
+
+</html>

@@ -1,0 +1,186 @@
+<html>
+<head>
+<title>Example</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="css\bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>  
+</head>
+<body>
+<div class="container">
+<form action="student_register.php" method="post">
+
+  <center><h3 class="note" style="font-size:30px; font-family:Montserrat;">Registration form</h3></center>
+  <br>
+  <div class="form-group">
+  <label for="txt_studentName">Name</label>
+  <input type="Text" id="txt_studentName" name="txt_studentName" placeholder="Enter your Name" class="form-control">
+   <br>
+   
+   <label for="txt_studentUSN">USN</label>
+  <input type="Text" id="txt_studentUSN" name="txt_studentUSN" placeholder="Enter your USN number" class="form-control">
+   <br>
+   
+   <label for="txt_studentAge">Age</label>
+  <input type="Text" id="txt_studentAge" name="txt_studentAge" placeholder="Enter your Age" class="form-control">
+   <br>
+   <br>
+   
+   <!--div>
+   <label><b>Gender :</b></label>&nbsp;&nbsp;
+   
+   
+  <div class="custom-control custom-radio custom-control-inline">
+  <input type="radio" class="custom-control-input" id="radio_gender_male" name="radio_gender" value="Male">
+  <label class="custom-control-label" for="radio_gender_male" >Male</label>
+</div>
+
+
+<div class="custom-control custom-radio custom-control-inline">
+  <input type="radio" class="custom-control-input" id="radio_gender_female" name="radio_gender" value="Female">
+  <label class="custom-control-label" for="radio_gender_female" >Female</label>
+</div>
+</div-->
+
+<div>
+   <label><b>Gender :</b></label>&nbsp;&nbsp;
+   
+   <label class="radio-inline" for="radio_gender_male" >
+  <input type="radio" class="form-check-input" id="radio_gender_male" name="radio_gender" value="Male">
+  Male
+  </label>
+
+	<label class="radio-inline" for="radio_gender_female">
+  <input type="radio" class="form-check-input" id="radio_gender_female" name="radio_gender" value="Female">
+  Female
+  </label>
+</div>
+
+	<br>
+   
+   <label for="txt_College">College</label>
+  <input type="Text" id="txt_College" name="txt_College" placeholder="Enter college Name" class="form-control">
+   <br>
+   
+   <label for="txt_City">City</label>
+  <input type="Text" id="txt_City" name="txt_City" placeholder="Enter the city" class="form-control">
+   <br>
+   
+   <label for="txt_StudentPhone">Phone Number</label>
+  <input type="Text" id="txt_studentPhone" name="txt_studentPhone" placeholder="Enter Phone Number" class="form-control">
+   <br>
+   
+   <label for="txt_studentMail">E-Mail</label>
+  <input type="Text" id="txt_studentMail" name="txt_studentMail" placeholder="Enter your E-mail id" class="form-control">
+   <br>
+   <br>
+   <br>
+   <div>
+	<label>Fest</label>&nbsp;
+	<div id="fest_dropdown">
+	<select name="choice_fest"id="choice_fest" class="form-control" style="border-radius:1.5rem">
+	<!--Option Come from dynamicaly -->
+   </select>
+   </div>
+   </div>
+ 
+   <br>
+    <div>
+   <label>Event Type</label>&nbsp;&nbsp;
+   
+   <label class="radio-inline" for="radio_event_Technical">
+  <input type="radio" class="form-check-input" id="radio_event_Technical" name="radio_event" value="Technical">
+  Technical
+  </label>
+
+
+	<label class="radio-inline" for="radio_event_Non-technical">
+  <input type="radio" class="form-check-input" id="radio_event_Non-technical" name="radio_event" value="Non-technical">
+  Non-technical
+  </label>
+
+</div>
+
+	<br>
+	<div>
+	<label class="select-inline">Select events</label>&nbsp;
+	<select name="choice_event" id="choice_event" class="form-control">
+		<!--Events comes dynamically by ajax based on fest & type -->
+   </select>
+   
+   </div>
+   </div>
+   <br>
+   <center><button type="Submit" class="btn btn-primary " style="width:30%; color:white;">
+          <span class="glyphicon glyphicon-log-in"></span> Register
+        </button></center>
+		<br>
+		
+		
+		
+		
+   </form>
+   </div>
+   </body>
+   
+   <script>
+	function readFest(){
+		
+		var readfest = "readrfest";
+		$.ajax({
+			url:"readFest.php",
+			type:"POST",
+			data:{readfest: readfest},
+			success:function(data,status){
+				$('#choice_fest').html(data);
+			},
+
+		});
+	}
+	
+	$(document).ready(function (){
+		readFest();
+	});	
+	
+	$(document).ready(function readEvent(){
+		$("input[name='radio_event']").change(function(){
+		var fest=$('#choice_fest').val();
+		var type=$("input[name='radio_event']:checked").val();
+		alert(type);
+		$.ajax({
+			url:"readEvent.php",
+			type:"POST",
+			data:{fest: fest ,
+				type: type
+			},
+			success:function(data,status){
+				$('#choice_event').html(data);
+			},
+		
+		});
+	});
+});
+	</script>
+	
+	<style>
+	
+	.note
+   {
+    text-align:center;
+	height:80px;
+	background:-webkit-linear-gradient(left, #2587c2, #34d073);
+	color:#fff;
+	font-weight: bold;
+	line-height:80px;
+	font-size:30px;
+	}
+	
+	</style>
+	
+	
+  </html>
+   
+   
+   

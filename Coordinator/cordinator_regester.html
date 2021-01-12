@@ -1,0 +1,196 @@
+<html>
+<head>
+<title>Example</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="..\css\bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="..\js\AddRow.js"></script>
+  
+</head>
+<body>
+<div class="container">
+<form action="event_register.php" method="post">
+
+  <!--center><h3 style="font-size:30px; font-family:Montserrat;">Event Registration Form</h3></center-->
+  <br>
+  <div class="note">
+  
+  <p>Event regestration form</p>
+  </div>
+  
+  <br>
+  <div class="form-group">
+  
+  <div>
+	<label>Fest</label>&nbsp;
+	<div id="fest_dropdown">
+	<select name="choice_fest" id="choice_fest" class="form-control" style="border-radius:1.5rem">
+	<!--Option Come from dynamicaly -->
+   </select>
+   </div>
+   
+   </div>
+   <br>
+   
+  
+  <div>
+   <label>Event Type</label>&nbsp;&nbsp;
+   
+   <label class="radio-inline" for="radio_event_Technical">
+  <input type="radio" class="form-check-input" id="radio_event_Technical" name="radio_event" value="Technical">
+  Technical
+  </label>
+
+
+	<label class="radio-inline" for="radio_event_Non-technical">
+  <input type="radio" class="form-check-input" id="radio_event_Non-technical" name="radio_event" value="Non-technical">
+  Non-technical
+  </label>
+
+</div>
+
+<br>
+
+<label for="txt_eventName">Event Name</label>
+<input type="Text" id="txt_eventName" name="txt_eventName" placeholder="Enter the event name" class="form-control" style="border-radius:1.5rem";>
+   <br>
+
+   <label for="txt_datetime">Date and Time </label>
+<input type="datetime-local" id="txt_datetime" name="txt_datetime" class="form-control"style="border-radius:1.5rem";>
+   <br>
+   
+   <label for="txt_entryFee">Entry Fee</label>
+<input type="number" id="txt_entryFee" name="txt_entryFee" placeholder="Enter event fee" class="form-control"style="border-radius:1.5rem";>
+   <br>
+   
+  <div class="row">
+  <div class="col-md-1">
+  <label>Team Size</label><br>
+  </div>
+  <div class="col-md-5">
+	<input type="number" id="txt_minSize" name="txt_minSize" placeholder="Minimum Team Size" class="form-control" style="border-radius:1.5rem;">
+  </div>
+  <div class="col-md-6">
+	<input type="number" id="txt_maxSize" name="txt_maxSize" placeholder="Maximum Team Size" class="form-control" style="border-radius:1.5rem;">
+  </div>
+ 
+  </div>
+
+   <br>
+   
+   <label for="txt_password">Enter your password </label>
+<input type="password" id="txt_password" name="txt_password" class="form-control" placeholder="Enter the new password" style="border-radius:1.5rem";>
+   <br>
+   
+   <label for="txt_cpassword">Confirm password </label>
+<input type="password" id="txt_cpassword" name="txt_password" class="form-control" placeholder="Again enter the same password" style="border-radius:1.5rem";>
+   <br>
+    
+
+
+
+<label for="txt_eventDescription">Event Description</label>
+<textarea rows="5" id="txt_eventDescription" name="txt_eventDescription" placeholder="Enter Shrort Description" class="form-control" style="border-radius:1.5rem";></textarea>
+ <br>
+ <br>
+ <br>
+ 
+<label>Cordinator details</label>
+<br>
+  <div>
+  <table id="myTable" class=" table order-list">
+    <thead>
+        <tr>
+            <td>Name</td>
+			<td>USN</td>
+            <td>Gmail</td>
+            <td>Phone</td>
+			<td>Department</tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="col-md-3">
+                <input type="text" name="name" class="form-control" placeholder="Enter Name" style="border-radius:1.5rem;" />
+            </td>
+			<td class="col-md-2">
+                <input type="text" name="usn" class="form-control" placeholder="Enter USN" style="border-radius:1.5rem;"/>
+            </td>
+            <td class="col-md-3">
+                <input type="mail" name="mail"  class="form-control" placeholder="Enter Mail" style="border-radius:1.5rem;"/>
+            </td>
+            <td class="col-md-2">
+                <input type="text" name="phone"  class="form-control" placeholder="Enter phone" style="border-radius:1.5rem;"/>
+            </td>
+			<td class="col-md-2">
+                <input type="text" name="departement"  class="form-control" placeholder="Enter Department" style="border-radius:1.5rem;"/>
+            </td>
+            <td class="col-sm-2"><a class="deleteRow"></a>
+
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="5" style="text-align: left; border-radius:1.5rem";>
+                <input type="button" class="btn btn-lg btn-block " id="addrow" value="Add Row" style="border-radius:1.5rem";/>
+            </td>
+        </tr>
+        <tr>
+        </tr>
+    </tfoot>
+</table>
+<input type="hidden" id="count" name="count" value="0">
+  </div>
+	<br>
+	
+	<br>
+   <center><button type="Submit" class="btn btn-success" style="width:20%; color:#fff; cursor:pointer; padding:1% border:none;  border-radius:1.5rem; ">
+          <span class="glyphicon glyphicon-log-in"></span> Register 
+        </button></center>
+		<br>
+	</form>
+	
+	</div>
+	</body>
+	<script>
+	function readFest(){
+		
+		var readfest = "readrfest";
+		$.ajax({
+			url:"readFest.php",
+			type:"POST",
+			data:{readfest: readfest},
+			success:function(data,status){
+				$('#choice_fest').html(data);
+			},
+
+		});
+	}
+	
+	$(document).ready(function (){
+		readFest();
+	});	
+	</script>
+	</html>
+	<style>
+	
+	.note
+   {
+    text-align:center;
+	height:80px;
+	background:-webkit-linear-gradient(left, #2587c2, #34d073);
+	color:#fff;
+	font-weight: bold;
+	line-height:80px;
+	font-size:30px;
+	}
+	
+	</style>
+	
+	
+	
+	
+	
